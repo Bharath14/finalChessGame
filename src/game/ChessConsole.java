@@ -1,6 +1,8 @@
 package game;
 
+import game.ai.AlphaBeta;
 import game.ai.Human;
+import game.ai.Minimax;
 import game.ai.Player;
 
 import  java.util.*;
@@ -9,7 +11,7 @@ import static game.GameStatus.*;
 
 public class ChessConsole {
     public static void main(String[] args) {
-        Player white = new Human(Color.WHITE);
+        Player white = new Human(Color.WHITE) ;
         Player black = new Human(Color.BLACK);
         Game game = new Game(white, black);
         GameInfo.printState(game);
@@ -21,7 +23,7 @@ public class ChessConsole {
         {
             int flagwhite = 0;
             while(flagwhite == 0) {
-                System.out.println("White turn");
+                //System.out.println("White turn");
                 System.out.println("Enter Source");
                 int x1 = sc.nextInt();
                 int y1 = sc.nextInt();
@@ -33,7 +35,8 @@ public class ChessConsole {
                 int y2 = sc.nextInt();
                 Cell whitedest = cells[x2][y2];
                 white.setDest(whitedest);
-                if(white.move(game) == true)
+                boolean result = white.move(game);
+                if(result == true)
                 {
                     flagwhite = 1;
                 }
@@ -41,13 +44,14 @@ public class ChessConsole {
                 {
                     flagwhite = 0;
                 }
+                //System.out.println("Original Color:"+game.getCurrentTurn().toCharacter());
             }
             GameInfo.printState(game);
             if(game.getGameStatus() == GameStatus.CONTINUE)
             {
                 int flagblack = 0;
                 while(flagblack == 0) {
-                    System.out.println("Black turn");
+                    //System.out.println("Black turn");
                     System.out.println("Enter Source");
                     int x3 = sc.nextInt();
                     int y3 = sc.nextInt();
@@ -69,6 +73,7 @@ public class ChessConsole {
                     }
                 }
                 GameInfo.printState(game);
+                //System.out.println("Original color:"+game.getCurrentTurn().toCharacter());
             }
         }
 

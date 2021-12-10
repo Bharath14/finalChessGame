@@ -1,11 +1,15 @@
 package game;
+import game.ai.AlphaBeta;
+import game.ai.Minimax;
 import game.pieces.*;
 import javafx.util.Pair;
 
+import java.time.chrono.MinguoEra;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import game.ai.Player;
+import game.ai.Human;
 
 public class Game{
 
@@ -28,8 +32,50 @@ public class Game{
         this.moveHistory = new ArrayList<Pair<Cell, Cell>>();
     }
     //if u need a deep copy of a game then first convert it into fen & then simply do: game.Game deepcopy = new game.Game(fen,p1,p2);
-    public Game(String fen,Player p1, Player p2){
+    public Game(Game game){
+        if(game.getWhitePlayer() instanceof Human) {
+            this.players[0] = new Human(Color.WHITE);
+        }
+        else if(game.getWhitePlayer() instanceof Minimax) {
+            this.players[0] = new Minimax(Color.WHITE);
+        }
+        else if(game.getWhitePlayer() instanceof AlphaBeta) {
+            this.players[0] = new AlphaBeta(Color.WHITE);
+        }
 
+        if(game.getBlackPlayer() instanceof Human) {
+            this.players[1] = new Human(Color.BLACK);
+        }
+        else if(game.getBlackPlayer() instanceof Minimax) {
+            this.players[1] = new Minimax(Color.BLACK);
+        }
+        else if(game.getBlackPlayer() instanceof AlphaBeta) {
+            this.players[1] = new AlphaBeta(Color.BLACK);
+        }
+
+        if(game.getCurrentTurn().getColor() == Color.WHITE) {
+            this.currentTurn = this.players[0];
+        }
+        else{
+            this.currentTurn = this.players[1];
+        }
+        this.board=new Board(game.getBoard());
+        this.gameStatus=game.getGameStatus();
+        ArrayList<String> history=(ArrayList<String>)(game.getHistory());
+        this.history= (List<String>) history.clone();
+        this.moveHistory = new ArrayList<Pair<Cell, Cell>>();
+        List <Pair<Cell,Cell>>originalMoveHistory= game.getMoveHistory();
+        for (int i=0;i<originalMoveHistory.size();i++){
+            this.moveHistory.add(new Pair<>(new Cell(originalMoveHistory.get(i).getKey()),new Cell(originalMoveHistory.get(i).getValue())));
+        }
+    }
+
+    public Player getWhitePlayer(){
+        return this.players[0];
+    }
+
+    public Player getBlackPlayer(){
+        return this.players[1];
     }
 
     public Board getBoard(){
@@ -51,6 +97,7 @@ public class Game{
     public void changeCurrentTurn(){
         if(this.currentTurn.getColor()== Color.WHITE){
             this.currentTurn =this.players[1];
+            //System.out.println("Player color:"+ this.players[1].getColor());
         }
         else{
             this.currentTurn =this.players[0];
@@ -58,7 +105,7 @@ public class Game{
     }
 
     public List<String> getHistory(){
-        return Collections.unmodifiableList(this.history);
+        return this.history;
     }
 
     /*public void storeToHistory(){
@@ -156,7 +203,10 @@ public class Game{
         this.makeMove(source,destination);
         //we need to send deep copies of cells so that we can check those move (i.e cells) later even after board changes
         this.addToMoveHistory(new Pair<>(new Cell(source),new Cell(destination)));
+        //System.out.println(this.getCurrentTurn().toCharacter());
         this.changeCurrentTurn();
+        //System.out.println(this.getCurrentTurn().toCharacter());
+        //System.out.println("Color Change");
         GameUtils.checkStatus(this);
 
     }

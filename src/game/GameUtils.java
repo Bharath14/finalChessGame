@@ -17,12 +17,14 @@ public final class GameUtils{
                     List<Cell>legalmoves=cells[i][j].getPiece().legalMoves(cells);
                     if(!legalmoves.isEmpty()){
                         for(Cell x: legalmoves){
+                            //System.out.println("PieceType: "+cells[i][j].getPiece().toCharacter());
                             moves.add(new Pair<>(cells[i][j], x));
                         }
                     }
                 }
             }
         }
+        //System.out.println("legalmoves Size :"+ moves.size());
         return moves;
     }
 
@@ -68,6 +70,7 @@ public final class GameUtils{
     // If isInCheck() returns true and isInMate() returns true then it's checkmate.
 // If isInCheck() returns false and isInMate() returns true then it's stalemate.
     public static boolean isInMate(Game game){
+        //System.out.println("filtered moves:" +allFilteredMoves(game, allLegalMoves(game)).size() );
         return allFilteredMoves(game, allLegalMoves(game)).isEmpty();
     }
 
@@ -78,6 +81,7 @@ public final class GameUtils{
     }
 
     public static boolean staleMate(Game game){
+        //System.out.println("instalemate :" + isInMate(game) +isInCheck(game.getBoard().getCells(), game.getCurrentTurn().getColor())  );
         return !isInCheck(game.getBoard().getCells(), game.getCurrentTurn().getColor()) && isInMate(game);
     }
 

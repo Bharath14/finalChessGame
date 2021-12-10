@@ -3,6 +3,7 @@ package game.ai;
 import game.Cell;
 import game.Color;
 import game.Game;
+import game.pieces.Piece;
 
 public abstract class Player {
     private Color playercolor ;
@@ -11,6 +12,10 @@ public abstract class Player {
 
     public Player(Color color) {
         this.playercolor = color;
+    }
+
+    Player(Player player){
+        this(player.getColor());
     }
 
     public void setSource(Cell source)

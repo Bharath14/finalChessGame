@@ -74,8 +74,16 @@ public class Board{
         }
     }
 
-    public Board(String fen){
-
+    public Board(Board board){
+        Cell [][]originalCells=board.getCells();
+        for (int x=0;x<8;x++){
+            for(int y=0;y<8;y++){
+                this.cells[x][y]=new Cell(originalCells[x][y]);
+            }
+        }
+        // below is not valid safe code(we should do deep copy)
+        this.whitePieces= board.getWhitePieces();
+        this.whitePieces= board.getBlackPieces();
     }
 
     public Piece[] getWhitePieces(){
@@ -83,11 +91,11 @@ public class Board{
     }
 
     public Piece[] getBlackPieces(){
-        return this.blackPieces.clone();
+        return this.blackPieces;
     }
 
     public Cell[][] getCells(){
-        return this.cells.clone();
+        return this.cells;
     }
 /*
     public void setWhitePiece(game.Piece piece){

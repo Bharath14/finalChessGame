@@ -123,7 +123,7 @@ public class Cell{
                     PieceType attackerPieceType = attackerPiece.getType();
                     if(attackerPiece.getColor()!=color){
                         if(flag==1){
-                            if(attackerPieceType== KING || attackerPieceType== KNIGHT || attackerPieceType== BISHOP || attackerPieceType== QUEEN){
+                            if(attackerPieceType== KING || attackerPieceType== PAWN || attackerPieceType== BISHOP || attackerPieceType== QUEEN){
                                 return true;
                             }
                         }

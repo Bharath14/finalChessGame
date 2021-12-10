@@ -4,6 +4,7 @@ import game.Cell;
 import game.Color;
 import game.Game;
 import game.GameUtils;
+import game.pieces.King;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -14,6 +15,10 @@ public class Human extends Player {
     public Human(Color color) {
         super(color);
     }
+    public Human(Human player){
+        this(player.getColor());
+    }
+
 
     @Override
     public boolean move(Game game) {
