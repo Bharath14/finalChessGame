@@ -13,7 +13,6 @@ public class GameInfo {
     public static void printState(Game game) {
         printInfo(game);
 
-        System.out.println();
         List<Pair<Cell, Cell>> allmoves = GameUtils.allLegalMoves(game);
         /*for(Pair<Cell, Cell> move: allmoves)
         {
@@ -22,7 +21,6 @@ public class GameInfo {
                     "DestPieceType: "+ move.getValue().toCharacter());
         }*/
 
-        System.out.println();
 
         //printHistory(game);
         //System.out.println();
@@ -37,7 +35,6 @@ public class GameInfo {
      */
 
     public static void printInfo(Game game) {
-        System.out.println();
         System.out.println("Turn " + game.getCurrentTurn().toCharacter() + ":");
         //System.out.println("Fifty-move Rule: " + game.getPeace());
         //System.out.println("Currently " + GameHelper.turnToString(game.getWhiteTurn()) + "'s turn.");

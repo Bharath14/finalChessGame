@@ -203,7 +203,7 @@ public class Game{
     public void playTurn(Cell source, Cell destination){
         //this.storeToHistory();
 
-        if(source.getPiece().checkPawnPromotion(source)) {
+        if(source.getPiece().getType()==PieceType.PAWN && ((Pawn)(source.getPiece())).checkPawnPromotion(source) && this.getCurrentTurn() instanceof Human) {
             Piece sourcePiece = source.getPiece();
             sourcePiece.setLife(0);
             System.out.println("Pawnpromotion");
@@ -229,10 +229,10 @@ public class Game{
                 }
             }
         }
-
+        this.addToMoveHistory(new Pair<>(new Cell(source),new Cell(destination)));
         this.makeMove(source,destination);
         //we need to send deep copies of cells so that we can check those move (i.e cells) later even after board changes
-        this.addToMoveHistory(new Pair<>(new Cell(source),new Cell(destination)));
+
         //System.out.println(this.getCurrentTurn().toCharacter());
         this.changeCurrentTurn();
         //System.out.println(this.getCurrentTurn().toCharacter());

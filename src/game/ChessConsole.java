@@ -56,7 +56,7 @@ public class ChessConsole {
                     int x3 = sc.nextInt();
                     int y3 = sc.nextInt();
                     Cell blacksource = cells[x3][y3];
-                    black.setSource(blacksource);
+                    black.setSource(blacksource, game);
 
                     System.out.println("Enter Destination");
                     int x4 = sc.nextInt();

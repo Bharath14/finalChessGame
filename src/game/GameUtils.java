@@ -103,7 +103,7 @@ public final class GameUtils{
     }
 
     public static void checkStatus(Game game){
-        if(/*fiftyMoveRule(game) ||*/ staleMate(game) || insufficientMating(game) /*|| threefoldRepetition(game)*/){
+        if(fiftyMoveRule(game) || staleMate(game) || insufficientMating(game) /*|| threefoldRepetition(game)*/){
             game.setGameStatus(GameStatus.DRAW);
         }
         else if(checkMate(game)){

@@ -1,0 +1,109 @@
+StaleMate:
+
+    W - (4,1) -> (4,2)
+    B - (0,6) -> (0,4)
+    W - (3,0) -> (7,4)
+    B - (0,7) -> (0,5)
+    W - (7,4) -> (0,4)
+    B - (7,6) -> (7,4)
+    W - (0,4) -> (2,6)
+    B - (0,5) -> (7,5)
+    W - (7,1) -> (7,3)
+    B - (5,6) -> (5,5)
+    W - (2,6) -> (3,6)
+    B - (4,7) -> (5,6)
+    W - (3,6) -> (1,6)
+    B - (3,7) -> (3,2)
+    W - (1,6) -> (1,7)
+    B - (3,2) -> (7,6)
+    W - (1,7) -> (2,7)
+    B - (5,6) -> (6,5)
+    W - (2,7) -> (4,5)
+
+CheckMate:
+
+    W - (5,1) -> (5,2)
+    B - (4,6) -> (4,5)
+    W - (6,1) -> (6,3)
+    B - (3,7) -> (7,3)
+
+    Black Wins
+
+Em Passant:
+
+    W - (4,1) -> (4,3)
+    B - (0,6) -> (0,4)
+    W - (4,3) -> (4,4)
+    B - (3,6) -> (3,4)
+    W - (4,4) -> (3,5)
+
+Castling :
+
+    W - (3,1) -> (3,3)
+    B - (3,6) -> (3,5)
+    W - (2,0) -> (7,5)
+    B - (6,6) -> (7,5) // Killing piece
+    W - (1,0) -> (0,2)
+    B - (3,5) -> (3,4)
+    W - (3,0) -> (3,2)
+    B - (7,5) -> (7,4)
+    W - (4,0) -> (2,0)
+
+Pawn Promotion:
+
+    W - (0,1) -> (0,3)
+    B - (0,6) -> (0,4)
+    W - (1,1) -> (1,3)
+    B - (0,4) -> (1,3)
+    W - (0,3) -> (0,4)
+    B - (0,7) -> (0,5)
+    W - (2,1) -> (2,2)
+    B - (0,5) -> (7,5)
+    W - (0,4) -> (0,5)
+    B - (1,3) -> (2,2) // Killing piece
+    W - (0,5) -> (0,6)
+    B - (2,2) -> (2,1)
+    W - (0,6) -> (0,7) // pawn promotion
+
+King In Check:
+
+    W - (3,1) -> (3,3)
+    B - (4,6) -> (4,4)
+    W - (4,1) -> (4,2)
+    B - (5,7) -> (1,3) // Checks the white king
+    W - (0,1) -> (0,3) // invalid move when king in danger
+
+Save King In Check:
+
+    W - (3,1) -> (3,3)
+    B - (4,6) -> (4,4)
+    W - (4,1) -> (4,2)
+    B - (5,7) -> (1,3) // Checks the white king
+    W - (2,1) -> (2,2) // valid move when king in danger
+
+King In danger:
+
+    W - (4,1) -> (4,3)
+    B - (4,6) -> (4,4)
+    W - (7,1) -> (7,2)
+    B - (5,7) -> (1,3)
+    W - (3,1) -> (3,2) //invalid move since white king will come into check because of this move
+    W - (0,1) -> (0,2) //valid move
+
+Invalid Source Selection:
+
+    Case - 1:
+        W - (5,5) // Empty Cell
+    Case-2:
+        W - (1,6) // Black piece
+    Case -3:
+        W - (20,30) // out of bounds
+
+Invalid Destination Selection:
+
+    Case - 1:
+        W - (0,0) -> (0,1) // Can't kill its own piece
+    Case-2:
+        W - (0,0) -> (1,1) // illegal move for piece selected (rook)
+    Case -3:
+        W - (1,2) -> (20,30) // out of bounds

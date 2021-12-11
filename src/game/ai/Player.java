@@ -22,6 +22,7 @@ public abstract class Player {
     public void setSource(Cell source)
     {
         this.currentsource = source;
+        return true;
     }
 
     public void setDest(Cell dest)

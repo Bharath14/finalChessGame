@@ -37,8 +37,8 @@ public abstract class Ai extends Player{
         Cell source = move.getKey().getKey();
         Cell dest = move.getKey().getValue();
         this.setDest(dest);
-        this.setSource(source);
-        if(game.validSourceSelection(source)) {
+        boolean res = this.setSource(source, game);
+        if(res) {
             if (source != null && dest != null) {
                         game.playTurn(source, dest);
                         return true;
@@ -68,7 +68,7 @@ public abstract class Ai extends Player{
             }
             else
             {
-                return new Pair<>(new Pair<>(null, null), 0);
+                return new Pair<>(new Pair<>(null, null), Integer.MAX_VALUE);
             }
         } else {
             if(moveValue.size() !=0) {
@@ -76,7 +76,7 @@ public abstract class Ai extends Player{
             }
             else
             {
-                return new Pair<>(new Pair<>(null, null), 0);
+                return new Pair<>(new Pair<>(null, null), Integer.MIN_VALUE);
             }
         }
     }

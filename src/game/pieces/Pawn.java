@@ -20,9 +20,11 @@ public class Pawn extends Piece
         //this.empasantmove = empasantmove;
         //this.empasantCell = empasantCell;
     }
+
     public Pawn(Pawn piece){
         this(piece.getColor(), piece.getLife(),piece.getIsMoved(), piece.getPosition());
     }
+
     public void setRecentMoveWasJump(boolean newValue)
     {
         this.RecentMoveWasJump = newValue;
@@ -32,6 +34,7 @@ public class Pawn extends Piece
     {
         return this.RecentMoveWasJump;
     }
+
     @Override
     public ArrayList<Cell> legalMoves(Cell cells[][]) {
         ArrayList<Cell> legalmoves = new ArrayList<Cell>();
