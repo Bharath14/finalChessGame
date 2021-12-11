@@ -6,7 +6,8 @@ import game.Color;
 import game.Position;
 
 public class Bishop extends Piece{
-
+    private static final int[] X_DIRECTIONS={-1,-1,1,1};
+    private static final int[] Y_DIRECTIONS={-1,1,-1,1};
     public Bishop(final Color color, final int life, Position position) {
         super(PieceType.BISHOP, color, life,position, 30);
     }
@@ -17,81 +18,36 @@ public class Bishop extends Piece{
     @Override
     public ArrayList<Cell> legalMoves(Cell cells[][])
     {
-        //Bishop can Move diagonally in all 4 direction (NW,NE,SW,SE)
-        ArrayList<Cell> legalMoves = new ArrayList<Cell>();
-        Position startPosition = this.getPosition();
-        int x = startPosition.getXCoordinate();
-        int y = startPosition.getYCoordinate();
+        final ArrayList<Cell> highlightCells = new ArrayList<>();
+        final int x = this.position.getXCoordinate();
+        final int y = this.position.getYCoordinate();
 
-        int tempx=x+1, tempy=y-1;
-        while(tempx<8 && tempy>=0)
+        // check all directions
+        for(int i=0;i<4;i++)
         {
-            if(cells[tempx][tempy].getPiece()==null)
+            int destinationXCoordinate=x,destinationYCoordinate=y;
+            destinationXCoordinate+= X_DIRECTIONS[i];
+            destinationYCoordinate+= Y_DIRECTIONS[i];
+            while(destinationXCoordinate>=0 && destinationXCoordinate<8 && destinationYCoordinate>=0 && destinationYCoordinate<8)
             {
-                legalMoves.add(cells[tempx][tempy]);
+                final Cell destinationCell = cells[destinationXCoordinate][destinationYCoordinate];
+                final Piece destinationPiece = destinationCell.getPiece();
+                if(destinationPiece==null){
+                    //System.out.println("its null");
+                    highlightCells.add(destinationCell);
+                }
+                else{
+                    //System.out.println(destinationPiece.toCharacter());
+                    if(destinationPiece.getColor()!= this.color){
+                        highlightCells.add(destinationCell);
+                    }
+                    break;
+                }
+                destinationXCoordinate+= X_DIRECTIONS[i];
+                destinationYCoordinate+= Y_DIRECTIONS[i];
             }
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx++;
-            tempy--;
         }
-
-        tempx=x-1;
-        tempy=y+1;
-        while(tempx>=0 && tempy<8)
-        {
-            if(cells[tempx][tempy].getPiece()==null)
-                legalMoves.add(cells[tempx][tempy]);
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx--;
-            tempy++;
-        }
-
-        tempx=x-1;
-        tempy=y-1;
-        while(tempx>=0 && tempy>=0)
-        {
-            if(cells[tempx][tempy].getPiece()==null)
-                legalMoves.add(cells[tempx][tempy]);
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx--;
-            tempy--;
-        }
-
-        tempx=x+1;
-        tempy=y+1;
-        while(tempx<8 && tempy<8)
-        {
-            if(cells[tempx][tempy].getPiece()==null)
-                legalMoves.add(cells[tempx][tempy]);
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx++;
-            tempy++;
-        }
-        return legalMoves;
+        return highlightCells;
     }
     @Override
     public String toCharacter(){

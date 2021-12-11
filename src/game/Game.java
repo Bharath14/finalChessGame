@@ -8,6 +8,8 @@ import java.time.chrono.MinguoEra;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
+
 import game.ai.Player;
 import game.ai.Human;
 
@@ -200,6 +202,34 @@ public class Game{
 
     public void playTurn(Cell source, Cell destination){
         //this.storeToHistory();
+
+        if(source.getPiece().checkPawnPromotion(source)) {
+            Piece sourcePiece = source.getPiece();
+            sourcePiece.setLife(0);
+            System.out.println("Pawnpromotion");
+            System.out.println("Enter piece");
+            Scanner sc= new Scanner(System.in);
+            String piece = sc.nextLine();
+            Piece newPiece = PieceFactory.createPromotionPiece(piece, sourcePiece);
+            source.setPiece(newPiece);
+        }
+
+        // if castle move then have to move rook as well
+        if(source.getPiece().getType()==PieceType.KING){
+            boolean castleMove=((King)(source.getPiece())).isCastling(destination);
+            if(castleMove){
+                Cell [][]cells=this.board.getCells();
+                if(destination.getPosition().getXCoordinate()<source.getPosition().getXCoordinate()){
+                    //queen side castle
+                    this.makeMove(cells[source.getPosition().getXCoordinate()-4][source.getPosition().getYCoordinate()],cells[source.getPosition().getXCoordinate()-1][source.getPosition().getYCoordinate()]);//move rook
+                }
+                else{
+                    //king side castle
+                    this.makeMove(cells[source.getPosition().getXCoordinate()+3][source.getPosition().getYCoordinate()],cells[source.getPosition().getXCoordinate()+1][source.getPosition().getYCoordinate()]);//move rook
+                }
+            }
+        }
+
         this.makeMove(source,destination);
         //we need to send deep copies of cells so that we can check those move (i.e cells) later even after board changes
         this.addToMoveHistory(new Pair<>(new Cell(source),new Cell(destination)));

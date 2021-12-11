@@ -55,35 +55,45 @@ public class Pawn extends Piece
                 desty -= Y_Direction[i];
             }
 
-            if(i==1) {
-                int j = 0;
-                while (j < 2 && desty>=0 && desty<8) {
+            if(i==0)
+            {
+                Cell destcell = cells[destx][desty];
+                Piece destpiece = destcell.getPiece();
+                if (destpiece == null) {
+                    legalmoves.add(destcell);
+                }
+            }
+
+            else if(i==1 && this.getIsMoved() == 0) {
                     Cell destcell1 = cells[destx][desty];
                     Piece destpiece1 = destcell1.getPiece();
-                    if (destpiece1 == null) {
+                    Cell destcell ;
+                    Piece destpiece ;
+                    if(this.getColor()==Color.WHITE)
+                    {
+                        destcell = cells[destx][desty-1];
+                        destpiece = destcell.getPiece();
+                    }
+                    else
+                    {
+                        destcell = cells[destx][desty+1];
+                        destpiece = destcell.getPiece();
+                    }
+                    if (destpiece1 == null && destpiece == null) {
                         legalmoves.add(destcell1);
                     }
-                    j = j + 1;
-                    if (this.getColor() == Color.WHITE) {
-                        destx += X_Direction[i];
-                        desty += Y_Direction[i];
-                    } else {
-                        destx += X_Direction[i];
-                        desty -= Y_Direction[i];
+            }
+            else if(i==2||i==3)
+            {
+                if(destx>=0&&destx<8&&desty>=0&&desty<8) {
+                    Cell destcell2 = cells[destx][desty];
+                    Piece destpiece2 = destcell2.getPiece();
+                    if (destpiece2 != null && destpiece2.getColor() != this.getColor()) {
+                        legalmoves.add(destcell2);
                     }
                 }
             }
-                else if(i==2||i==3)
-                {
-                    if(destx>=0&&destx<8&&desty>=0&&desty<8) {
-                        Cell destcell2 = cells[destx][desty];
-                        Piece destpiece2 = destcell2.getPiece();
-                        if (destpiece2 != null && destpiece2.getColor() != this.getColor()) {
-                            legalmoves.add(destcell2);
-                        }
-                    }
-                }
-                else
+            else if(i>3)
             {
                 if(destx>=0&&destx<8&&desty>=0&&desty<8) {
                     Cell destcell3 = cells[destx][desty];
@@ -91,7 +101,6 @@ public class Pawn extends Piece
                     if (destpiece3 != null && destpiece3.getColor() != this.getColor() && destpiece3 instanceof Pawn) {
                         if(((Pawn)destpiece3).getRecentMoveWasJump() == true)
                         {
-                            //System.out.println("Emphasant legal move");
                             if (this.getColor() == Color.WHITE) {
                                 legalmoves.add(cells[destx][desty+1]);
                             } else {
@@ -107,6 +116,7 @@ public class Pawn extends Piece
         }
         return legalmoves;
     }
+
     public int getIsMoved()
     {
         return this.isMoved;

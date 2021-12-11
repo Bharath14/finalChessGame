@@ -6,6 +6,8 @@ import game.Color;
 import game.Position;
 
 public class Queen extends Piece{
+    private final static int[] X_DIRECTIONS={-1,-1,-1,0,0,1,1,1};
+    private final static int[] Y_DIRECTIONS={-1,0,1,-1,1,-1,0,1};
 
     public Queen(final Color color, final int life, Position position) {
         super(PieceType.QUEEN, color, life, position, 90);
@@ -16,142 +18,36 @@ public class Queen extends Piece{
     @Override
     public ArrayList<Cell> legalMoves(Cell cells[][])
     {
-        ArrayList<Cell> legalMoves = new ArrayList<Cell>();
-        Position startPosition = this.getPosition();
-        int x = startPosition.getXCoordinate();
-        int y = startPosition.getYCoordinate();
+        final ArrayList<Cell> highlightCells = new ArrayList<>();
+        final int x = this.position.getXCoordinate();
+        final int y = this.position.getYCoordinate();
 
-        //Checking possible moves in vertical direction
-        int tempx=x-1;
-        while(tempx >= 0)
+        // check all directions
+        for(int i=0;i<8;i++)
         {
-            if(cells[tempx][y].getPiece()==null)
-                legalMoves.add(cells[tempx][y]);
-            else if(cells[tempx][y].getPiece().getColor()==this.getColor())
-                break;
-            else
+            int destinationXCoordinate=x,destinationYCoordinate=y;
+            destinationXCoordinate+= X_DIRECTIONS[i];
+            destinationYCoordinate+= Y_DIRECTIONS[i];
+            while(destinationXCoordinate>=0 && destinationXCoordinate<8 && destinationYCoordinate>=0 && destinationYCoordinate<8)
             {
-                legalMoves.add(cells[tempx][y]);
-                break;
+                final Cell destinationCell = cells[destinationXCoordinate][destinationYCoordinate];
+                final Piece destinationPiece = destinationCell.getPiece();
+                if(destinationPiece==null){
+                    //System.out.println("its null");
+                    highlightCells.add(destinationCell);
+                }
+                else{
+                    //System.out.println(destinationPiece.toCharacter());
+                    if(destinationPiece.getColor()!= this.color){
+                        highlightCells.add(destinationCell);
+                    }
+                    break;
+                }
+                destinationXCoordinate+= X_DIRECTIONS[i];
+                destinationYCoordinate+= Y_DIRECTIONS[i];
             }
-            tempx--;
         }
-
-        tempx=x+1;
-        while(tempx < 8)
-        {
-            if(cells[tempx][y].getPiece()==null)
-                legalMoves.add(cells[tempx][y]);
-            else if(cells[tempx][y].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][y]);
-                break;
-            }
-            tempx++;
-        }
-
-
-        //Checking possible moves in horizontal Direction
-        int tempy=y-1;
-        while(tempy >= 0)
-        {
-            if(cells[x][tempy].getPiece()==null)
-                legalMoves.add(cells[x][tempy]);
-            else if(cells[x][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[x][tempy]);
-                break;
-            }
-            tempy--;
-        }
-        tempy=y+1;
-        while(tempy < 8)
-        {
-            if(cells[x][tempy].getPiece()==null)
-                legalMoves.add(cells[x][tempy]);
-            else if(cells[x][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[x][tempy]);
-                break;
-            }
-            tempy++;
-        }
-
-        //Checking for possible moves in diagonal direction
-        tempx=x+1;
-        tempy=y-1;
-        while(tempx<8 && tempy>=0)
-        {
-            if(cells[tempx][tempy].getPiece()==null)
-                legalMoves.add(cells[tempx][tempy]);
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx++;
-            tempy--;
-        }
-
-        tempx=x-1;
-        tempy=y+1;
-        while(tempx>=0 && tempy<8)
-        {
-            if(cells[tempx][tempy].getPiece()==null)
-                legalMoves.add(cells[tempx][tempy]);
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx--;
-            tempy++;
-        }
-
-        tempx=x-1;
-        tempy=y-1;
-        while(tempx>=0 && tempy>=0)
-        {
-            if(cells[tempx][tempy].getPiece()==null)
-                legalMoves.add(cells[tempx][tempy]);
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx--;
-            tempy--;
-        }
-
-        tempx=x+1;
-        tempy=y+1;
-        while(tempx<8 && tempy<8)
-        {
-            if(cells[tempx][tempy].getPiece()==null)
-                legalMoves.add(cells[tempx][tempy]);
-            else if(cells[tempx][tempy].getPiece().getColor()==this.getColor())
-                break;
-            else
-            {
-                legalMoves.add(cells[tempx][tempy]);
-                break;
-            }
-            tempx++;
-            tempy++;
-        }
-        return legalMoves;
+        return highlightCells;
     }
     @Override
     public String toCharacter(){

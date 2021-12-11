@@ -4,6 +4,7 @@ import game.Cell;
 import game.Color;
 import game.Game;
 import game.pieces.Piece;
+import game.pieces.PieceType;
 
 public abstract class Player {
     private Color playercolor ;

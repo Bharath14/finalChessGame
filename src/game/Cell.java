@@ -19,36 +19,7 @@ public class Cell{
 
     public Cell(Cell cell) {
         Piece original = cell.getPiece();
-        Piece copy;
-        if(original != null) {
-            switch (original.getType()) {
-                case KING:
-                    copy = new King((King) original);
-                    break;
-                case QUEEN:
-                    copy = new Queen((Queen) original);
-                    break;
-                case ROOK:
-                    copy = new Rook((Rook) original);
-                    break;
-                case BISHOP:
-                    copy = new Bishop((Bishop) original);
-                    break;
-                case KNIGHT:
-                    copy = new Knight((Knight) original);
-                    break;
-                case PAWN:
-                    copy = new Pawn((Pawn) original);
-                    break;
-                default:
-                    copy = null;
-                    break;
-            }
-        }
-        else
-        {
-            copy = null;
-        }
+        Piece copy = PieceFactory.createPiece(original);
         this.cellPosition = cell.getPosition();
         this.piece = copy;
     }

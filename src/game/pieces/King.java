@@ -4,6 +4,7 @@ import game.Cell;
 import game.Color;
 import game.pieces.Piece;
 import game.Position;
+import java.lang.Math;
 
 import java.util.ArrayList;
 
@@ -89,6 +90,15 @@ public final class King extends Piece {
     {
         this.isMoved = newValue;
     }
+
+    // should be called if the parameter "destination" belongs to one of the legalMoves of king
+    public  boolean isCastling(Cell destination){
+        if(Math.abs(destination.getPosition().getXCoordinate()-this.position.getXCoordinate())==2){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toCharacter(){
         if(this.color==Color.WHITE) {

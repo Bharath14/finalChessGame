@@ -1,14 +1,12 @@
 package game.ai;
 
-import game.Cell;
-import game.Color;
-import game.Game;
-import game.GameUtils;
-import game.pieces.King;
+import game.*;
+import game.pieces.*;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Human extends Player {
 
@@ -42,12 +40,13 @@ public class Human extends Player {
             //System.out.println(dest.toCharacter());
             //System.out.println(move.getValue().toCharacter());
             if (move.getValue() == dest) {
-                game.playTurn(source, dest);
-                System.out.println("Validss");
-                return true;
+                    game.playTurn(source, dest);
+                    System.out.println("Validss");
+                    return true;
             }
         }
         //System.out.println("at the end");
         return false;
     }
+
 }
