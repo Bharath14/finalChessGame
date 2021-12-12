@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class Ai extends Player{
-    public Ai(Color color)
+    public Ai(PlayerType type, Color color)
     {
-        super(color);
+        super(type,color);
     }
 
     public int evaluate(Game game) {
@@ -62,13 +62,13 @@ public abstract class Ai extends Player{
             moveValue = depthGreaterthanZero(filteredCells, game, depth, Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
 
-        if (game.getCurrentTurn().getColor() == Color.WHITE) {
+        if (game.getCurrentTurn().getColor() == this.getColor()) {
             if(moveValue.size() !=0) {
                 return max(moveValue);
             }
             else
             {
-                return new Pair<>(new Pair<>(null, null), Integer.MAX_VALUE);
+                return new Pair<>(new Pair<>(null, null), Integer.MIN_VALUE);
             }
         } else {
             if(moveValue.size() !=0) {
@@ -76,7 +76,7 @@ public abstract class Ai extends Player{
             }
             else
             {
-                return new Pair<>(new Pair<>(null, null), Integer.MIN_VALUE);
+                return new Pair<>(new Pair<>(null, null), Integer.MAX_VALUE);
             }
         }
     }

@@ -10,13 +10,15 @@ public abstract class Player {
     private Color playercolor ;
     private Cell currentsource;
     private Cell currentdest;
+    private PlayerType type;
 
-    public Player(Color color) {
+    public Player(PlayerType type,Color color) {
         this.playercolor = color;
+        this.type = type;
     }
 
     Player(Player player){
-        this(player.getColor());
+        this(player.getType(),player.getColor());
     }
 
     public boolean setSource(Cell source, Game game)
@@ -27,6 +29,16 @@ public abstract class Player {
         }
         this.currentsource = source;
         return true;
+    }
+
+    public PlayerType getType()
+    {
+        return this.type;
+    }
+
+    public void setType(PlayerType newType)
+    {
+        this.type = newType;
     }
 
     public void setDest(Cell dest)
@@ -53,11 +65,11 @@ public abstract class Player {
     {
         if(this.playercolor == Color.WHITE)
         {
-            return "White";
+            return "White:" +" " +this.type;
         }
         else
         {
-            return "Black";
+            return "Black:" +" " +this.type;
         }
     }
 

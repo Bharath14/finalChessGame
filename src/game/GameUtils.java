@@ -91,7 +91,12 @@ public final class GameUtils{
     public static boolean fiftyMoveRule(Game game){
         List<Pair<Cell,Cell>>moves = game.getMoveHistory();
         boolean flag=true;
+        if(moves.size() < 50)
+        {
+            return false;
+        }
         for(int i=moves.size()-1;i> moves.size()-50;i--){
+            System.out.println(moves.size());
             if(moves.get(i).getKey().getPiece().getType()==PieceType.PAWN || moves.get(i).getValue().getPiece()!=null){
                 flag=false;
                 break;

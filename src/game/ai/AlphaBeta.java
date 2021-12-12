@@ -9,12 +9,23 @@ import game.pieces.Piece;
 public class AlphaBeta extends Ai {
 
     public AlphaBeta(Color color) {
-        super(color);
+        super(PlayerType.AlphaBeta,color);
+    }
+    public AlphaBeta(AlphaBeta player)
+    {
+        this(player.getColor());
     }
     public List<Pair<Pair<Cell, Cell>, Integer>> depth_1( List<Pair<Cell, Cell>> filteredCells, Game game, int alpha, int beta)
     {
         List<Pair<Pair<Cell, Cell>, Integer>> moveValue = new ArrayList<Pair<Pair<Cell, Cell>, Integer>>();
-        double depth_value = Integer.MIN_VALUE;
+        double depth_value;
+        if(game.getCurrentTurn().getColor() == this.getColor()) {
+            depth_value = Integer.MIN_VALUE;
+        }
+        else
+        {
+            depth_value = Integer.MAX_VALUE;
+        }
         for (Pair<Cell, Cell> move : filteredCells) {
             Position sourcepos = move.getKey().getPosition();
             Position destpos = move.getValue().getPosition();
@@ -24,7 +35,7 @@ public class AlphaBeta extends Ai {
             int value = this.evaluate(tempgame);
             Pair<Pair<Cell, Cell>, Integer> temp = new Pair<Pair<Cell, Cell>, Integer>(move, value);
             moveValue.add(temp);
-            if(game.getCurrentTurn().getColor() == Color.WHITE)
+            if(game.getCurrentTurn().getColor() == this.getColor())
             {
                 depth_value = Math.max(depth_value, value);
                 alpha = Math.max(alpha, (int)depth_value);
@@ -32,7 +43,7 @@ public class AlphaBeta extends Ai {
             else
             {
                 depth_value = Math.min(depth_value, value);
-                alpha = Math.min(alpha, (int)depth_value);
+                beta = Math.min(beta, (int)depth_value);
             }
             if(alpha>=beta)
             {
@@ -44,7 +55,14 @@ public class AlphaBeta extends Ai {
     public List<Pair<Pair<Cell, Cell>, Integer>> depthGreaterthanZero( List<Pair<Cell, Cell>> filteredCells, Game game, int depth, int alpha, int beta)
     {
         List<Pair<Pair<Cell, Cell>, Integer>> moveValue = new ArrayList<Pair<Pair<Cell, Cell>, Integer>>();
-        double depth_value = Integer.MAX_VALUE;
+        double depth_value;
+        if(game.getCurrentTurn().getColor() == this.getColor()) {
+            depth_value = Integer.MIN_VALUE;
+        }
+        else
+        {
+            depth_value = Integer.MAX_VALUE;
+        }
         for (Pair<Cell, Cell> move : filteredCells) {
             Game tempgame = new Game(game);
             Position sourcepos = move.getKey().getPosition();
@@ -55,7 +73,7 @@ public class AlphaBeta extends Ai {
             int value = tempAI.execute(depth - 1, alpha, beta, tempgame).getValue();
             Pair<Pair<Cell, Cell>, Integer> temp = new Pair<Pair<Cell, Cell>, Integer>(move, value);
             moveValue.add(temp);
-            if(game.getCurrentTurn().getColor() == Color.WHITE)
+            if(game.getCurrentTurn().getColor() == this.getColor())
             {
                 depth_value = Math.max(depth_value, value);
                 alpha = Math.max(alpha, (int)depth_value);
@@ -63,7 +81,7 @@ public class AlphaBeta extends Ai {
             else
             {
                 depth_value = Math.min(depth_value, value);
-                alpha = Math.min(alpha, (int)depth_value);
+                beta = Math.min(beta, (int)depth_value);
             }
             if(alpha>=beta)
             {

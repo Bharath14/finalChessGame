@@ -1,6 +1,5 @@
 package game;
-import game.ai.AlphaBeta;
-import game.ai.Minimax;
+import game.ai.*;
 import game.pieces.*;
 import javafx.util.Pair;
 
@@ -9,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-
-import game.ai.Player;
-import game.ai.Human;
 
 public class Game{
 
@@ -36,25 +32,8 @@ public class Game{
 
     //if u need a deep copy of a game then first convert it into fen & then simply do: game.Game deepcopy = new game.Game(fen,p1,p2);
     public Game(Game game){
-        if(game.getWhitePlayer() instanceof Human) {
-            this.players[0] = new Human(Color.WHITE);
-        }
-        else if(game.getWhitePlayer() instanceof Minimax) {
-            this.players[0] = new Minimax(Color.WHITE);
-        }
-        else if(game.getWhitePlayer() instanceof AlphaBeta) {
-            this.players[0] = new AlphaBeta(Color.WHITE);
-        }
-
-        if(game.getBlackPlayer() instanceof Human) {
-            this.players[1] = new Human(Color.BLACK);
-        }
-        else if(game.getBlackPlayer() instanceof Minimax) {
-            this.players[1] = new Minimax(Color.BLACK);
-        }
-        else if(game.getBlackPlayer() instanceof AlphaBeta) {
-            this.players[1] = new AlphaBeta(Color.BLACK);
-        }
+        this.players[0] = PlayerFactory.createPlayer(game.getWhitePlayer());
+        this.players[1] = PlayerFactory.createPlayer(game.getBlackPlayer());
 
         if(game.getCurrentTurn().getColor() == Color.WHITE) {
             this.currentTurn = this.players[0];
@@ -192,19 +171,19 @@ public class Game{
             {
                 ((Pawn)sourcePiece).setRecentMoveWasJump(false);
             }
-            if(((Pawn)sourcePiece).getEmpasantmove() == true)
+            if(((Pawn)sourcePiece).getEnpasantmove() == true)
             {
                 if((destination.getPosition().getXCoordinate() == x+1 || destination.getPosition().getXCoordinate() == x-1) && destinationPiece == null)
                 {
-                    Cell empasantcell = ((Pawn)sourcePiece).getEmpasantcell();
+                    Cell empasantcell = ((Pawn)sourcePiece).getEnpasantcell();
                     Piece empasantpiece = empasantcell.getPiece();
                     empasantpiece.setLife(0);
                     empasantcell.removePiece();
-                    ((Pawn)sourcePiece).setEmpasantmove(false);
+                    ((Pawn)sourcePiece).setEnpasantmove(false);
                 }
                 else
                 {
-                    ((Pawn)sourcePiece).setEmpasantmove(false);
+                    ((Pawn)sourcePiece).setEnpasantmove(false);
                 }
             }
         }
@@ -223,7 +202,7 @@ public class Game{
     public void playTurn(Cell source, Cell destination){
         //this.storeToHistory();
 
-        if(source.getPiece().getType()==PieceType.PAWN && ((Pawn)(source.getPiece())).checkPawnPromotion(source) && this.getCurrentTurn() instanceof Human) {
+        if(source.getPiece().getType()==PieceType.PAWN && ((Pawn)(source.getPiece())).checkPawnPromotion(source) && this.getBlackPlayer() instanceof Human && this.getWhitePlayer() instanceof Human) {
             Piece sourcePiece = source.getPiece();
             sourcePiece.setLife(0);
             System.out.println("Pawn promotion");

@@ -11,7 +11,7 @@ import game.pieces.Piece;
 public class Minimax extends Ai {
 
     public Minimax(Color color) {
-        super(color);
+        super(PlayerType.Minimax,color);
     }
 
     public Minimax(Minimax player){

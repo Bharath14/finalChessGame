@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Human extends Player {
 
     public Human(Color color) {
-        super(color);
+        super(PlayerType.Human,color);
     }
     public Human(Human player){
         this(player.getColor());

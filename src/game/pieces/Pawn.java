@@ -11,8 +11,8 @@ public class Pawn extends Piece
 {
     private boolean RecentMoveWasJump ;
     private int isMoved;
-    private Cell empasantCell;
-    private boolean empasantmove = false;
+    private Cell enpasantCell;
+    private boolean enpasantmove = false;
     public Pawn(Color color, int life, int isMoved, Position position)
     {
         super(PieceType.PAWN,color, life, position, 10);
@@ -110,8 +110,8 @@ public class Pawn extends Piece
                                 legalmoves.add(cells[destx][desty-1]);
                             }
 
-                            this.empasantmove = true;
-                            this.empasantCell = destcell3;
+                            this.enpasantmove = true;
+                            this.enpasantCell = destcell3;
                         }
                     }
                 }
@@ -130,14 +130,14 @@ public class Pawn extends Piece
         this.isMoved = newValue;
     }
 
-    public boolean getEmpasantmove()
+    public boolean getEnpasantmove()
     {
-        return this.empasantmove;
+        return this.enpasantmove;
     }
 
-    public Cell getEmpasantcell()
+    public Cell getEnpasantcell()
     {
-        return this.empasantCell;
+        return this.enpasantCell;
     }
 
     public boolean checkPawnPromotion(Cell source)
@@ -160,9 +160,9 @@ public class Pawn extends Piece
         }
     }
 
-    public void setEmpasantmove(boolean newvalue)
+    public void setEnpasantmove(boolean newvalue)
     {
-        this.empasantmove = newvalue;
+        this.enpasantmove = newvalue;
     }
     @Override
     public String toCharacter(){
