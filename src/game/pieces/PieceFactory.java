@@ -31,10 +31,10 @@ public class PieceFactory {
         Position originalPosition=original.getPosition();
         Color originalColor=original.getColor();
               newPiece = switch (type) {
-                case "Queen" -> new Queen(originalColor,1,originalPosition);
-                case "Rook" -> new Rook(originalColor,1,1,originalPosition);
-                case "Bishop" -> new Bishop(originalColor,1,originalPosition);
-                case "Knight" -> new Knight(originalColor,1,originalPosition);
+                case "QUEEN" -> new Queen(originalColor,1,originalPosition);
+                case "ROOK" -> new Rook(originalColor,1,1,originalPosition);
+                case "BISHOP" -> new Bishop(originalColor,1,originalPosition);
+                case "KNIGHT" -> new Knight(originalColor,1,originalPosition);
                 default -> null;
             };
 

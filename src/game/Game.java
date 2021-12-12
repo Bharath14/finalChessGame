@@ -33,6 +33,7 @@ public class Game{
         this.history = new ArrayList<>();
         this.moveHistory = new ArrayList<Pair<Cell, Cell>>();
     }
+
     //if u need a deep copy of a game then first convert it into fen & then simply do: game.Game deepcopy = new game.Game(fen,p1,p2);
     public Game(Game game){
         if(game.getWhitePlayer() instanceof Human) {
@@ -61,10 +62,12 @@ public class Game{
         else{
             this.currentTurn = this.players[1];
         }
+
         this.board=new Board(game.getBoard());
         this.gameStatus=game.getGameStatus();
         ArrayList<String> history=(ArrayList<String>)(game.getHistory());
         this.history= (List<String>) history.clone();
+
         this.moveHistory = new ArrayList<Pair<Cell, Cell>>();
         List <Pair<Cell,Cell>>originalMoveHistory= game.getMoveHistory();
         for (int i=0;i<originalMoveHistory.size();i++){
@@ -125,8 +128,21 @@ public class Game{
     // checks if source selected by player is valid or not (Valid :   game.Cell should have a piece & color of piece should be currentPlayer's color)
     public boolean validSourceSelection(Cell source){
         Piece sourcePiece=source.getPiece();
-        return (sourcePiece != null && sourcePiece.getColor() == this.currentTurn.getColor());
+        if(sourcePiece == null){
+            System.out.println("Selected empty cell! Please try again.");
+            return false;
+        }
+        else{
+            if(sourcePiece.getColor()!=this.currentTurn.getColor()){
+                System.out.println("Selected wrong color! Please try again.");
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
     }
+
     // checks if currentPlayer's king will be in danger after the move.
     boolean willKingBeInDanger(Cell source, Cell destination){
         Cell[][] cells = this.board.getCells();
@@ -146,10 +162,11 @@ public class Game{
 
         return GameUtils.isInCheck(newCells, this.currentTurn.getColor());
     }
+
     // should be called only if the move is an actual valid move
     public void makeMove(Cell source,Cell destination){
-        // changes done to this function parameters reflect in the board attribute also...check it
 
+        // changes done to this function parameters reflect in the board attribute also...check it
         Piece sourcePiece = source.getPiece();
         Piece destinationPiece=destination.getPiece();
         if(destinationPiece!=null)
@@ -159,6 +176,7 @@ public class Game{
         }
         destination.setPiece(sourcePiece);
         sourcePiece.setPosition(destination.getPosition());
+
         if(sourcePiece.getType() == PieceType.PAWN) {
             ((Pawn) sourcePiece).setIsMoved(1);
             Position startPosition = source.getPosition();
@@ -190,14 +208,16 @@ public class Game{
                 }
             }
         }
+
         else if(sourcePiece.getType() == PieceType.ROOK) {
             ((Rook) sourcePiece).setIsMoved(1);
         }
+
         else if(sourcePiece.getType() == PieceType.KING) {
             ((King) sourcePiece).setIsMoved(1);
         }
+
         source.removePiece();
-        //movehistory, store history, change turn ,check/update status
     }
 
     public void playTurn(Cell source, Cell destination){
@@ -206,11 +226,21 @@ public class Game{
         if(source.getPiece().getType()==PieceType.PAWN && ((Pawn)(source.getPiece())).checkPawnPromotion(source) && this.getCurrentTurn() instanceof Human) {
             Piece sourcePiece = source.getPiece();
             sourcePiece.setLife(0);
-            System.out.println("Pawnpromotion");
-            System.out.println("Enter piece");
-            Scanner sc= new Scanner(System.in);
-            String piece = sc.nextLine();
-            Piece newPiece = PieceFactory.createPromotionPiece(piece, sourcePiece);
+            System.out.println("Pawn promotion");
+            int flag=0;
+            Piece newPiece = null;
+            while(flag==0) {
+                System.out.println("Enter piece type (All letters in uppercase):");
+                Scanner sc = new Scanner(System.in);
+                String pieceType = sc.nextLine();
+                newPiece = PieceFactory.createPromotionPiece(pieceType, sourcePiece);
+                if (newPiece != null) {
+                    flag=1;
+                }
+                else{
+                    System.out.println("Invalid piece type!");
+                }
+            }
             source.setPiece(newPiece);
         }
 

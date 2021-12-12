@@ -4,9 +4,6 @@ import game.pieces.*;
 
 import static game.pieces.PieceType.*;
 
-/**
- * Represents each square in the chess board
- */
 public class Cell{
     private Position cellPosition;
     private Piece piece;

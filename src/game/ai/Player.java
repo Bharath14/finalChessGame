@@ -19,8 +19,12 @@ public abstract class Player {
         this(player.getColor());
     }
 
-    public void setSource(Cell source)
+    public boolean setSource(Cell source, Game game)
     {
+        if(!game.validSourceSelection(source))
+        {
+            return false;
+        }
         this.currentsource = source;
         return true;
     }
@@ -43,9 +47,7 @@ public abstract class Player {
         return this.playercolor;
     }
 
-    public boolean move(Game game) {
-        return true;
-    }
+    public abstract boolean move(Game game);
 
     public String toCharacter()
     {

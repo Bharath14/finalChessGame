@@ -30,6 +30,5 @@ public class Position{
     public String toCharacter(){
         return "("+this.x + ", "+ this.y + ")";
     }
-//Other coordinates like (A,1).,(B,6)....Pending
 
 }

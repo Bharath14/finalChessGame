@@ -51,6 +51,7 @@ public final class GameUtils{
                 repeat++;
         return repeat;
     }*/
+
     // isInCheck() method checks whether currentTurn's king is in check or not
     public static boolean isInCheck(Cell[][] cells, Color color){
         //Cell[][] cells =game.getBoard().getCells();
@@ -67,6 +68,7 @@ public final class GameUtils{
         //System.out.println("is in check :second false");
         return false;
     }
+
     // If isInCheck() returns true and isInMate() returns true then it's checkmate.
 // If isInCheck() returns false and isInMate() returns true then it's stalemate.
     public static boolean isInMate(Game game){

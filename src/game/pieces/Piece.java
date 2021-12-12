@@ -61,27 +61,6 @@ public abstract class Piece {
         this.life = newLife;
     }
 
-    public boolean checkPawnPromotion(Cell source)
-    {
-        if(source.getPiece().getType() != PieceType.PAWN)
-        {
-            return false;
-        }
-        else
-        {
-            if((source.getPiece().getColor() == Color.WHITE && source.getPosition().getYCoordinate() == 6)||
-                    (source.getPiece().getColor() == Color.BLACK && source.getPosition().getYCoordinate() == 1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-    }
-
     public int getValue(){ return this.value ;}
 
     public abstract ArrayList<Cell> legalMoves(Cell cells[][]);

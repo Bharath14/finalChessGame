@@ -5,11 +5,7 @@ import javafx.util.Pair;
 import java.util.List;
 
 public class GameInfo {
-    /**
-     * function that prints the state of the board using ascii characters to the terminal for the player to reference
-     *
-     * @param game variable that stores the piece positions, accessed with game class getPiece()
-     */
+
     public static void printState(Game game) {
         printInfo(game);
 
@@ -28,11 +24,7 @@ public class GameInfo {
         printBoard(game);
     }
 
-    /**
-     * function that prints info about the game such as the turn, fifty-move rule, black or white turn, the FEN, threefold repetition and white and black time
-     *
-     * @param game variable that stores the piece positions, accessed with game class getPiece()
-     */
+
 
     public static void printInfo(Game game) {
         System.out.println("Turn " + game.getCurrentTurn().toCharacter() + ":");
@@ -44,11 +36,7 @@ public class GameInfo {
         //System.out.println("Black Time: " + game.getClock().getBlackTime());
     }
 
-    /**
-     * function that prints the current state of the board
-     *
-     * @param game variable that stores the piece positions, accessed with game class getPiece()
-     */
+
 
     public static void printBoard(Game game) {
         game.getBoard().toCharacter();

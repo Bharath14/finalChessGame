@@ -97,19 +97,6 @@ public class Board{
     public Cell[][] getCells(){
         return this.cells;
     }
-/*
-    public void setWhitePiece(game.Piece piece){
-
-    }
-
-    public void setBlackPiece(game.Piece piece){
-
-    }
-
-    public void setCells(){
-
-    }
-*/
 
     @Override
     public String toString() {
